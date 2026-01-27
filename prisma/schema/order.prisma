@@ -10,6 +10,7 @@ model Order {
 
     //   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
       items  OrderItem[]
+      review Review?
 
     @@map("orders")
 }
