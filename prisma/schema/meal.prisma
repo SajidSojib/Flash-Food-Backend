@@ -1,19 +1,21 @@
 model Meal {
-    id          String  @id @default(uuid())
+    id          String   @id @default(uuid())
     providerId  String
     categoryId  String
     name        String
     price       Float
-    ingredients String
-    description String?
-    image       String?
-    isAvailable Boolean @default(true)
+    ingredients String[]
+    description String
+    tags        String[]
+    images       String[]
+    isAvailable Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
-    provider ProviderProfile @relation(fields: [providerId], references: [id])
-    category Category        @relation(fields: [categoryId], references: [id])
+    provider ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+    category Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     //   orderItems OrderItem[]
     //   reviews Review[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    @@map("meals")
 }
