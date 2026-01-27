@@ -1,5 +1,5 @@
 {
-  "name": "flash-food-backend",
+  "name": "Flash-Food-Backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "packageManager": "pnpm@10.26.2",
   "devDependencies": {
     "@types/node": "^25.0.10",
     "@types/pg": "^8.16.0",
@@ -20,7 +20,9 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.3",
+    "express": "^5.2.1",
     "pg": "^8.17.2"
   }
 }

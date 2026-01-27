@@ -1,0 +1,14 @@
+model ProviderProfile {
+    id             String  @id @default(uuid())
+    userId         String  @unique
+    restaurantName String  @db.VarChar(150)
+    description    String? @db.Text
+    address        String? @db.Text
+    logo           String?
+    isApproved     Boolean @default(false)
+
+    //   user  User @relation(fields: [userId], references: [id])
+    //   meals Meal[]
+
+    @@map("providers")
+}
