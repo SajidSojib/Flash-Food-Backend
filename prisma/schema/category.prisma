@@ -1,0 +1,7 @@
+model Category {
+  id    String @id @default(uuid())
+  name  String @db.VarChar(50)
+  slug  String @unique
+
+//   meals Meal[]
+}
