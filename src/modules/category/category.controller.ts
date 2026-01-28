@@ -9,6 +9,13 @@ const createCategory = asyncHandler(async (req, res) => {
     return response.send(res);
 });
 
+const getAllCategories = asyncHandler(async (req, res) => {
+    const data = await categoryService.getAllCategories();
+    const response = new ApiResponse(200, data, "Categories fetched successfully");
+
+    return response.send(res);
+})
+
 const deleteCategory = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const data = await categoryService.deleteCategory(id as string);
@@ -19,5 +26,6 @@ const deleteCategory = asyncHandler(async (req, res) => {
 
 export const categoryController = {
     createCategory,
+    getAllCategories,
     deleteCategory
 }

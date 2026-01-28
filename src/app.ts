@@ -7,6 +7,7 @@ import { authRouter } from "./modules/auth/auth.route";
 import globalErrorHandler from "./middlewire/globalErrorHandler";
 import notFound from "./middlewire/notFound";
 import { providerRouter } from "./modules/provider/provider.route";
+import { categoryRouter } from "./modules/category/category.route";
 
 
 const app: Application = express();
@@ -28,8 +29,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.all("/api/auth/{*any}", toNodeHandler(auth));
-
 app.use("/api/providers", providerRouter);
+app.use("/api/categories", categoryRouter);
 
 
 //* error handler
