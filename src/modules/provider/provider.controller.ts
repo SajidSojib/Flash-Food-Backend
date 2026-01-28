@@ -1,3 +1,4 @@
+import { Role } from "../../../generated/prisma/enums";
 import { ApiResponse } from "../../utils/apiResponse";
 import asyncHandler from "../../utils/asyncHandler";
 import { providerService } from "./provider.service";
@@ -16,7 +17,18 @@ const getAllProviders = asyncHandler(async (req, res) => {
     return response.send(res);
 });
 
+const updateProvider = asyncHandler(async (req, res) => {
+    const {providerId} = req.params;
+    const isAdmin = req.user?.role === Role.ADMIN
+
+    const data = await providerService.updateProvider(providerId as string, req?.body, isAdmin);
+
+    const response = new ApiResponse(200, data, "Provider updated successfully");
+    return response.send(res);
+})
+
 export const providerController = {
     createProvider,
     getAllProviders,
+    updateProvider
 };
