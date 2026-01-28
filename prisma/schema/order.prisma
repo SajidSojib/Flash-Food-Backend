@@ -12,6 +12,8 @@ model Order {
     items  OrderItem[]
     review Review?
 
+    @@index([userId, status])
+
     @@map("orders")
 }
 

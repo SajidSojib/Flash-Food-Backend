@@ -17,5 +17,6 @@ model Meal {
     orderItems OrderItem[]
     reviews    Review[]
 
+    @@index([providerId, categoryId, isAvailable])
     @@map("meals")
 }
