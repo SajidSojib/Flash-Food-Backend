@@ -1,10 +1,10 @@
 model MealCategory {
-  mealId     String
-  categoryId String
+    mealId     String
+    categoryId String
 
-  meal     Meal     @relation(fields: [mealId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    meal     Meal     @relation(fields: [mealId], references: [id], onDelete: Cascade)
+    category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-  @@id([mealId, categoryId]) 
-  @@map("meal_categories")
+    @@id([mealId, categoryId])
+    @@map("meal_categories")
 }

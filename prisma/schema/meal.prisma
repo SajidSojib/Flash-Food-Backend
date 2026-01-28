@@ -5,7 +5,6 @@ model Meal {
     price       Float
     ingredients String[]
     description String
-    tags        String[]
     images      String[]
     isAvailable Boolean  @default(true)
     createdAt   DateTime @default(now())
