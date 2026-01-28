@@ -4,7 +4,7 @@ import asyncHandler from "../../utils/asyncHandler";
 import { providerService } from "./provider.service";
 
 const createProvider = asyncHandler(async (req, res) => {
-    const data = await providerService.createProvider(req.body.userId, req?.body);
+    const data = await providerService.createProvider(req.user?.id as string, req?.body);
     const response = new ApiResponse(201, data, "Provider created successfully");
 
     return response.send(res);
@@ -21,7 +21,7 @@ const updateProvider = asyncHandler(async (req, res) => {
     const {providerId} = req.params;
     const isAdmin = req.user?.role === Role.ADMIN
 
-    const data = await providerService.updateProvider(providerId as string, req?.body, isAdmin);
+    const data = await providerService.updateProvider(req.user?.id as string, providerId as string, req?.body, isAdmin);
 
     const response = new ApiResponse(200, data, "Provider updated successfully");
     return response.send(res);

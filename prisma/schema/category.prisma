@@ -8,7 +8,7 @@ model Category {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    meals Meal[]
+    meals MealCategory[]
 
     @@map("categories")
 }
