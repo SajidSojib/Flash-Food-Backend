@@ -6,6 +6,7 @@ import { toNodeHandler } from "better-auth/node";
 import { authRouter } from "./modules/auth/auth.route";
 import globalErrorHandler from "./middlewire/globalErrorHandler";
 import notFound from "./middlewire/notFound";
+import { providerRouter } from "./modules/provider/provider.route";
 
 
 const app: Application = express();
@@ -27,6 +28,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.all("/api/auth/{*any}", toNodeHandler(auth));
+
+app.use("api/providers", providerRouter);
 
 
 //* error handler

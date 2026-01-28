@@ -12,6 +12,6 @@ const createProvider = async (userId: string, data: Omit<ProviderProfile, "id" |
 };
 
 
-export const providerServices = {
+export const providerService = {
   createProvider,
 };

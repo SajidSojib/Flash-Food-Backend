@@ -6,6 +6,6 @@ const getAllMeals = async () => {
 };
 
 
-export const mealServices = {
+export const mealService = {
     getAllMeals,
 };

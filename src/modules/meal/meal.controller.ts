@@ -1,8 +1,8 @@
 import asyncHandler from "../../utils/asyncHandler";
-import { mealServices } from "./meal.service";
+import { mealService } from "./meal.service";
 
 const getAllMeals = asyncHandler(async (req, res) => {
-    const meals = await mealServices.getAllMeals();
+    const meals = await mealService.getAllMeals();
     res.status(200).json(meals);
 });
 
