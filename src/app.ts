@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter);
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 
-app.use("api/providers", providerRouter);
+app.use("/api/providers", providerRouter);
 
 
 //* error handler
