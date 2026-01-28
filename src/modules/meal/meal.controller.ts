@@ -1,3 +1,4 @@
+import { Role } from "../../../generated/prisma/enums";
 import { ApiResponse } from "../../utils/apiResponse";
 import asyncHandler from "../../utils/asyncHandler";
 import { mealService } from "./meal.service";
@@ -31,10 +32,19 @@ const updateMeal = asyncHandler(async (req, res) => {
     return response.send(res);
 })
 
+const deleteMeal = asyncHandler(async (req, res) => {
+    const {id} = req.params;
+    const data = await mealService.deleteMeal(id as string, req.user?.id as string, req.user?.role === Role.ADMIN);
+    
+    const response = new ApiResponse(200, data, "Meal deleted successfully");
+    return response.send(res);
+})
+
 
 export const mealController = {
     createMeal,
     getAllMeals,
     getMealById,
-    updateMeal
+    updateMeal,
+    deleteMeal
 };

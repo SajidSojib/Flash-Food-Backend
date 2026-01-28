@@ -107,10 +107,31 @@ const updateMeal = async (mealId: string, currentId: string, data: Meal & { cate
     })
 }
 
+const deleteMeal = async (id: string, currentId: string, isAdmin: boolean) => {
+    const meal = await prisma.meal.findUnique({
+        where: {
+            id
+        }
+    })
+    if(!meal){
+        throw new ApiError(404, "Meal not found")
+    }
+    if(meal.userId !== currentId && !isAdmin){
+        throw new ApiError(403, "You are not authorized to delete this meal")
+    }
+
+    return await prisma.meal.delete({
+        where: {
+            id
+        }
+    })
+}
+
 
 export const mealService = {
     getAllMeals,
     createMeal,
     getMealById,
-    updateMeal
+    updateMeal,
+    deleteMeal
 };

@@ -9,5 +9,6 @@ router.post("/", auth(Role.PROVIDER),  mealController.createMeal);
 router.get("/", mealController.getAllMeals);
 router.get("/:id", mealController.getMealById);
 router.patch("/:id", auth(Role.PROVIDER), mealController.updateMeal);
+router.delete("/:id", auth(Role.PROVIDER, Role.ADMIN), mealController.deleteMeal);
 
 export const mealRouter: Router = router;
