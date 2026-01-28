@@ -1,5 +1,6 @@
 import express, { type Application } from "express";
 import cors from "cors";
+import config from "./config";
 
 const app: Application = express();
 
@@ -7,7 +8,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.APP_URL || "http://localhost:3000",
+    origin: config.frontend_url,
     credentials: true,
   }),
 );
