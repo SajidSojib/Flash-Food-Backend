@@ -17,7 +17,7 @@ model User {
   reviews  Review[]
 
   @@unique([email])
-  @@map("customers")
+  @@map("user")
 }
 
 model Session {

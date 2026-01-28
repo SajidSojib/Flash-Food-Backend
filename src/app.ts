@@ -3,6 +3,7 @@ import cors from "cors";
 import config from "./config";
 import { auth } from "./lib/auth";
 import { toNodeHandler } from "better-auth/node";
+import { authRouter } from "./modules/auth/auth.route";
 
 
 const app: Application = express();
@@ -21,6 +22,8 @@ app.use(
 app.get("/", (req, res) => {
   res.send("Welcome to Flash Food");
 });
+
+app.use("/api/auth", authRouter);
 
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 
