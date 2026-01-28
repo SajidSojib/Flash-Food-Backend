@@ -16,8 +16,16 @@ const getAllMeals = asyncHandler(async (req, res) => {
     return response.send(res);
 });
 
+const getMealById = asyncHandler(async (req, res) => {
+    const data = await mealService.getMealById(req.params.id as string);
+    
+    const response = new ApiResponse(200, data, "Meal fetched successfully");
+    return response.send(res);
+})
+
 
 export const mealController = {
     createMeal,
     getAllMeals,
+    getMealById
 };

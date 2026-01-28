@@ -42,8 +42,47 @@ const getAllMeals = async () => {
     return meals;
 };
 
+const getMealById = async (id: string) => {
+    await prisma.meal.findUniqueOrThrow({
+        where: {
+            id
+        }
+    })
+    const meal = await prisma.meal.findUnique({
+        where: {
+            id
+        },
+        include: {
+            categories: {
+                select: {
+                    name: true
+                }
+            },
+            reviews: {
+                select: {
+                    user: {
+                        select: {
+                            name: true,
+                            image: true,
+                            email: true
+                        }
+                    },
+                    rating: true,
+                    comment: true,
+                },
+                orderBy: {
+                    createdAt: "desc"
+                }
+            }
+        }
+    })
+    const categoryArray  = meal?.categories.map((category: { name: string }) => category.name);
+    return { ...meal, categories: categoryArray }
+}
+
 
 export const mealService = {
     getAllMeals,
-    createMeal
+    createMeal,
+    getMealById
 };
