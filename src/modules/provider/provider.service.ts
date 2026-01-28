@@ -10,3 +10,8 @@ const createProvider = async (userId: string, data: Omit<ProviderProfile, "id" |
   });
   return provider;
 };
+
+
+export const providerServices = {
+  createProvider,
+};
