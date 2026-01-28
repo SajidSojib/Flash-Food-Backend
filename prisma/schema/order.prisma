@@ -13,7 +13,6 @@ model Order {
     review Review?
 
     @@index([userId, status])
-
     @@map("orders")
 }
 

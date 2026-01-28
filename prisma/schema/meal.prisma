@@ -1,6 +1,6 @@
 model Meal {
     id          String   @id @default(uuid())
-    providerId  String
+    userId      String
     name        String
     price       Float
     ingredients String[]
@@ -10,12 +10,12 @@ model Meal {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    provider    ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
-    categories  MealCategory[]   
+    user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    categories Category[]
 
-    orderItems  OrderItem[]
-    reviews     Review[]
+    orderItems OrderItem[]
+    reviews    Review[]
 
-    @@index([providerId, isAvailable]) 
+    @@index([userId, isAvailable])
     @@map("meals")
 }

@@ -31,14 +31,6 @@ const deleteCategory = async (id: string) => {
     if(!category){
         throw new ApiError(404, "Category not found")
     }
-    if (!category) {
-        throw new ApiError(404, "Category not found")
-    }
-    await prisma.meal.deleteMany({
-        where: {
-            categoryId: id
-        }
-    })
     return await prisma.category.delete({
         where: {
             id

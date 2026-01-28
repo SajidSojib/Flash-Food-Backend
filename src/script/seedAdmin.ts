@@ -28,10 +28,13 @@ async function seedAdmin() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "origin": config.frontend_url
             },
             body: JSON.stringify(adminData),
           },
         );
+
+        console.log(signupAdmin);
 
         if(signupAdmin.ok){
             await prisma.user.update({
@@ -48,3 +51,5 @@ async function seedAdmin() {
         console.log(error);
     }
 }
+
+seedAdmin();
