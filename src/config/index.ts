@@ -1,3 +1,4 @@
+import { email } from "better-auth";
 import dotenv from "dotenv";
 import path from "path";
 
@@ -9,6 +10,8 @@ const config = {
   frontend_url: process.env.FRONTEND_URL || "http://localhost:3000",
   backend_url: process.env.BACKEND_URL || "http://localhost:8000",
   better_auth_secret: process.env.BETTER_AUTH_SECRET,
+  resend_api: process.env.RESEND_API,
+  email_from: process.env.EMAIL_FROM as string,
 };
 
 export default config;
