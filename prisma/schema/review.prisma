@@ -5,7 +5,7 @@ model Review {
     rating  Int
     comment String
 
-    //   user User @relation(fields: [userId], references: [id])
+    user    User   @relation(fields: [userId], references: [id])
     meal    Meal   @relation(fields: [mealId], references: [id])
     orderId String @unique
     order   Order  @relation(fields: [orderId], references: [id])
