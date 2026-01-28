@@ -7,6 +7,7 @@ const router = Router();
 
 router.post("/", auth(Role.PROVIDER),  mealController.createMeal);
 router.get("/", mealController.getAllMeals);
-router.get("/:id", mealController.getMealById)
+router.get("/:id", mealController.getMealById);
+router.patch("/:id", auth(Role.PROVIDER), mealController.updateMeal);
 
 export const mealRouter: Router = router;

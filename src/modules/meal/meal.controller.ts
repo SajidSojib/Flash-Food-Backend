@@ -23,9 +23,18 @@ const getMealById = asyncHandler(async (req, res) => {
     return response.send(res);
 })
 
+const updateMeal = asyncHandler(async (req, res) => {
+    const {id} = req.params;
+    const data = await mealService.updateMeal(id as string, req.user?.id as string, req?.body);
+    
+    const response = new ApiResponse(200, data, "Meal updated successfully");
+    return response.send(res);
+})
+
 
 export const mealController = {
     createMeal,
     getAllMeals,
-    getMealById
+    getMealById,
+    updateMeal
 };

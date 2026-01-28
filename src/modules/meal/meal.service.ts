@@ -80,9 +80,37 @@ const getMealById = async (id: string) => {
     return { ...meal, categories: categoryArray }
 }
 
+const updateMeal = async (mealId: string, currentId: string, data: Meal & { categories: string[] }) => {
+    if(currentId !== data.userId){
+        throw new ApiError(403, "You are not authorized to update this meal")
+    }
+    const meal = await prisma.meal.findUnique({
+        where: {
+            id: mealId
+        }
+    })
+    if(!meal){
+        throw new ApiError(404, "Meal not found")
+    }
+    const {id, userId, categories, createdAt, updatedAt, ...rest} = data
+
+    return await prisma.meal.update({
+        where: {
+            id: mealId
+        },
+        data: {
+            ...rest,
+            categories: {
+                connect: categories.map((category: string) => ({ slug: category }))
+            }
+        },
+    })
+}
+
 
 export const mealService = {
     getAllMeals,
     createMeal,
-    getMealById
+    getMealById,
+    updateMeal
 };
