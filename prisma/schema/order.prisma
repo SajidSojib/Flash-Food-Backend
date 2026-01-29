@@ -22,4 +22,5 @@ enum OrderStatus {
     DELIVERED
     RECEAVED
     CANCELLED
+    REJECTED
 }
