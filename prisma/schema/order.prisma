@@ -13,7 +13,7 @@ model Order {
     provider ProviderProfile @relation(fields: [providerId], references: [id])
     items    OrderItem[]
     review   Review?
-
+ 
     @@index([userId, status])
     @@map("orders")
 }

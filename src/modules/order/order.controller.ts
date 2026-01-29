@@ -4,8 +4,8 @@ import asyncHandler from "../../utils/asyncHandler";
 import { orderService } from "./order.service";
 
 const createOrder = asyncHandler(async (req, res) => {
-    const {mealIdArray, ...rest} = req.body
-    const data = await orderService.createOrder(req.user?.id as string, rest, mealIdArray);
+    const {totalAmount, deliveryAddress, deliveryInstructions, orderItems} = req.body
+    const data = await orderService.createOrder(req.user?.id as string, totalAmount, deliveryAddress, deliveryInstructions, orderItems);
 
     const response = new ApiResponse(201, data, "Order created successfully");
     return response.send(res);

@@ -11,7 +11,7 @@ model Meal {
     updatedAt   DateTime @updatedAt
 
     provider       ProviderProfile       @relation(fields: [providerId], references: [id], onDelete: Cascade)
-    categories Category[]
+    categories Category[] 
 
     orderItems OrderItem[]
     reviews    Review[]

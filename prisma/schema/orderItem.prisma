@@ -11,3 +11,4 @@ model OrderItem {
   @@index([orderId, mealId])
   @@map("order-items")
 }
+ 
