@@ -25,8 +25,18 @@ const getAllOrders = asyncHandler(async (req, res) => {
     return response.send(res);
 })
 
+const updateOrderStatus = asyncHandler(async (req, res) => {
+    const {id} = req.params;
+    const {status} = req.body
+    const data = await orderService.updateOrderStatus(req.user?.role as Role, id as string, status);
+    
+    const response = new ApiResponse(200, data, "Order status updated successfully");
+    return response.send(res);
+})
+
 
 export const orderController = {
     createOrder,
-    getAllOrders
+    getAllOrders,
+    updateOrderStatus
 }

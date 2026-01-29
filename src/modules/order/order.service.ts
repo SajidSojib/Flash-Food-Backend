@@ -130,7 +130,70 @@ const getAllOrders = async (
   })
 };
 
+const updateOrderStatus = async (currentRole: RoleType, orderId: string, status: OrderStatusType) => {
+  //   placed(default) -> preparing -> delivered -> receaved
+  //  only customer can change status to cancelled, receaved
+  //  only provider can change status to preparing, delivered, rejected
+
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+  });
+
+  if (!order) {
+    throw new ApiError(404, "Order not found");
+  }
+
+  //   placed(default) -> preparing -> delivered -> receaved
+ const allowedPerStatus: Record<OrderStatus, OrderStatus[]> = {
+   [OrderStatus.PLACED]: [
+     OrderStatus.PREPARING,
+     OrderStatus.REJECTED,
+     OrderStatus.CANCELLED,
+   ],
+   [OrderStatus.PREPARING]: [
+     OrderStatus.DELIVERED,
+     OrderStatus.REJECTED,
+     OrderStatus.CANCELLED,
+   ],
+   [OrderStatus.DELIVERED]: [OrderStatus.RECEAVED],
+   [OrderStatus.RECEAVED]: [],
+   [OrderStatus.CANCELLED]: [],
+   [OrderStatus.REJECTED]: [],
+ };
+
+  if (!allowedPerStatus[order.status].includes(status)) {
+    throw new ApiError(403, `You can not change ${order?.status} order to ${status}`);
+  }
+
+  // customer -> receaved, cancelled
+  // provider -> preparing, delivered, rejected
+  const allowedPerRole: Record<Role, OrderStatus[]> = {
+    [Role.CUSTOMER]: [OrderStatus.CANCELLED, OrderStatus.RECEAVED],
+    [Role.PROVIDER]: [
+      OrderStatus.PREPARING,
+      OrderStatus.DELIVERED,
+      OrderStatus.REJECTED,
+    ],
+    [Role.ADMIN]: [],
+  };
+
+  if (!allowedPerRole[currentRole].includes(status)) {
+    throw new ApiError(403, `You are not authorized to change ${order?.status} order to ${status}`);
+  }
+  return await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      status,
+    },
+  });
+};
+
 export const orderService = {
   createOrder,
   getAllOrders,
+  updateOrderStatus,
 };
