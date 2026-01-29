@@ -4,14 +4,21 @@ import { ApiError } from "../../utils/apiError";
 
 
 const createMeal = async (currentId: string, data: Meal & { categories: string[] } ) => {
-    if(currentId !== data.userId){
+    const provider = await prisma.providerProfile.findUnique({
+        where: {
+            id: data.providerId
+        }
+    })
+    if(!provider){
+        throw new ApiError(404, `Provider not found with id ${data.providerId}`)
+    }
+    if(currentId !== provider?.userId){
         throw new ApiError(403, "You are not authorized to create this meal")
     }
-    const {categories, userId, ...rest} = data
+    const {categories, ...rest} = data
     return await prisma.meal.create({
         data: {
             ...rest,
-            userId: currentId,
             categories: {
                 connect: categories.map((category: string) => ({ slug: category }))
             }
@@ -81,7 +88,15 @@ const getMealById = async (id: string) => {
 }
 
 const updateMeal = async (mealId: string, currentId: string, data: Meal & { categories: string[] }) => {
-    if(currentId !== data.userId){
+    const provider = await prisma.providerProfile.findUnique({
+        where: {
+            id: data.providerId
+        }
+    })
+    if(!provider){
+        throw new ApiError(404, `Provider not found with id ${data.providerId}`)
+    }
+    if(currentId !== provider?.userId){
         throw new ApiError(403, "You are not authorized to update this meal")
     }
     const meal = await prisma.meal.findUnique({
@@ -92,7 +107,7 @@ const updateMeal = async (mealId: string, currentId: string, data: Meal & { cate
     if(!meal){
         throw new ApiError(404, "Meal not found")
     }
-    const {id, userId, categories, createdAt, updatedAt, ...rest} = data
+    const {id, providerId, categories, createdAt, updatedAt, ...rest} = data
 
     return await prisma.meal.update({
         where: {
@@ -116,7 +131,15 @@ const deleteMeal = async (id: string, currentId: string, isAdmin: boolean) => {
     if(!meal){
         throw new ApiError(404, "Meal not found")
     }
-    if(meal.userId !== currentId && !isAdmin){
+    const provider = await prisma.providerProfile.findUnique({
+        where: {
+            id: meal.providerId
+        },
+        select: {
+            userId: true
+        }
+    })
+    if(provider?.userId !== currentId && !isAdmin){
         throw new ApiError(403, "You are not authorized to delete this meal")
     }
 

@@ -13,7 +13,6 @@ model User {
   accounts      Account[]
 
   providerProfile ProviderProfile?
-  meals           Meal[]
   orders          Order[]
   reviews         Review[]
 
