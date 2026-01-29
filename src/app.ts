@@ -35,6 +35,7 @@ app.use("/api/providers", providerRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/meals", mealRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/reviews", orderRouter);
 
 
 //* error handler
