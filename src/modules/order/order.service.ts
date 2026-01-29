@@ -1,9 +1,11 @@
 import {
+    OrderStatus,
   Role,
   type Order,
-  type OrderStatus,
+  type OrderStatus as OrderStatusType,
   type Role as RoleType,
 } from "../../../generated/prisma/client";
+import type { OrderWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import { ApiError } from "../../utils/apiError";
 
@@ -55,51 +57,77 @@ const createOrder = async (
             },
           },
         },
+        include: {
+          items: {
+            select: {
+              quantity: true,
+              meal: {
+                select: {
+                  name: true,
+                  price: true,
+                },
+              },
+            },
+          },
+        },
       });
-      orders.push(order);
+      const data = {
+        ...order,
+        items: order.items.map((item) => {
+          return {
+            quantity: item.quantity,
+            name: item.meal.name,
+            price: item.meal.price,
+          };
+        }),
+      };
+      orders.push(data);
     }
-    return orders.map((order) => {
-      return tx.order.findUnique({
-        where: {
-          id: order.id,
-        }
-      });
-    });
-  })
+    return orders;
+  });
 };
 
 const getAllOrders = async (
   currentId: string,
   currentRole: RoleType,
-  status?: OrderStatus,
+  status?: OrderStatusType,
   userId?: string,
   providerId?: string,
 ) => {
-  const conditions = [];
-  if (userId && currentRole === Role.CUSTOMER) {
-    if (currentId !== userId) {
-      throw new ApiError(403, "You are not authorized to get these orders");
+  const andConditions: OrderWhereInput[] = [];
+  if (userId) {
+    console.log(userId==currentId);
+    if (userId !== currentId && currentRole !== Role.ADMIN) {
+      throw new ApiError(403, "You are not authorized to view these orders");
     }
-    conditions.push({ userId: userId });
-  } else if (providerId && currentRole === Role.PROVIDER) {
+    andConditions.push({ userId });
+  }
+  if (providerId) {
     const provider = await prisma.providerProfile.findUnique({
       where: {
         id: providerId,
       },
     });
-    if (provider?.userId !== currentId) {
-      throw new ApiError(403, "You are not authorized to get these orders");
+    if (provider?.userId !== currentId && currentRole !== Role.ADMIN) {
+      throw new ApiError(403, "You are not authorized to view these orders");
     }
-    conditions.push({ providerId: providerId });
+    andConditions.push({ providerId });
   }
   if (status) {
-    conditions.push({ status: status });
+    andConditions.push({ status });
   }
+  if(andConditions.length === 0 && currentRole !== Role.ADMIN){
+      throw new ApiError(403, "Only admin can view all orders. You need to add query parameters to view your orders");
+  }
+  
   return await prisma.order.findMany({
-    where: {
-      AND: conditions,
-    },
-  });
+      where: {
+          AND: andConditions
+      },
+      orderBy: {
+          createdAt: "desc"
+      }
+  })
 };
 
 export const orderService = {

@@ -9,6 +9,7 @@ import notFound from "./middlewire/notFound";
 import { providerRouter } from "./modules/provider/provider.route";
 import { categoryRouter } from "./modules/category/category.route";
 import { mealRouter } from "./modules/meal/meal.route";
+import { orderRouter } from "./modules/order/order.route";
 
 
 const app: Application = express();
@@ -33,6 +34,7 @@ app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use("/api/providers", providerRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/meals", mealRouter);
+app.use("/api/orders", orderRouter);
 
 
 //* error handler
