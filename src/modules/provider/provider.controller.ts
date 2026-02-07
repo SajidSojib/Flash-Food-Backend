@@ -4,7 +4,8 @@ import asyncHandler from "../../utils/asyncHandler";
 import { providerService } from "./provider.service";
 
 const createProvider = asyncHandler(async (req, res) => {
-    const data = await providerService.createProvider(req.user?.id as string, req?.body);
+    const {userData} = req.body
+    const data = await providerService.createProvider(userData);
     const response = new ApiResponse(201, data, "Provider created successfully");
 
     return response.send(res);

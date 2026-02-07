@@ -5,7 +5,7 @@ import { Role } from "../../../generated/prisma/enums";
 
 const router = Router();
 
-router.post("/", auth(Role.CUSTOMER), providerController.createProvider);
+router.post("/", providerController.createProvider);
 router.get("/",auth(), providerController.getAllProviders)
 router.patch("/:providerId", auth(Role.PROVIDER), providerController.updateProvider)
 
