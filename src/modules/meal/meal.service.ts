@@ -4,6 +4,7 @@ import { ApiError } from "../../utils/apiError";
 
 
 const createMeal = async (currentId: string, data: Meal & { categories: string[] } ) => {
+    console.log(data);
     const provider = await prisma.providerProfile.findUnique({
         where: {
             id: data.providerId

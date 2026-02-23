@@ -16,9 +16,11 @@ const createProvider = async (
     phone: string;
     address: string;
     deliveryFee: number;
-  },
+    token?: string;
+  }
 ) => {
   return await prisma.$transaction(async (tx) => {
+    delete providerData.token;
     const provider = await tx.providerProfile.create({
       data: {
         ...providerData,
@@ -44,6 +46,18 @@ const getAllProviders = async () => {
   });
   return providers;
 };
+
+const getMyProviderProfile = async (userId: string) => {
+  const provider = await prisma.providerProfile.findUnique({
+    where: {
+      userId,
+    },
+  });
+  if (!provider) {
+    throw new ApiError(404, "Provider not found");
+  }
+  return provider;
+}
 
 const updateProvider = async (
   userId: string,
@@ -83,4 +97,5 @@ export const providerService = {
   createProvider,
   getAllProviders,
   updateProvider,
+  getMyProviderProfile
 };

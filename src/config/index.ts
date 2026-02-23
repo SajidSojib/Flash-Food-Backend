@@ -10,6 +10,8 @@ const config = {
   frontend_url: process.env.FRONTEND_URL || "http://localhost:3000",
   backend_url: process.env.BACKEND_URL || "http://localhost:8000",
   better_auth_secret: process.env.BETTER_AUTH_SECRET,
+  google_client_id: process.env.GOOGLE_CLIENT_ID,
+  google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
   resend_api: process.env.RESEND_API,
   email_from: process.env.EMAIL_FROM as string,
   admin_name: process.env.ADMIN_NAME,

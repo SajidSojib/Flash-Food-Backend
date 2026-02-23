@@ -33,6 +33,14 @@ export const auth = betterAuth({
       },
     },
   },
+  socialProviders: {
+    google: {
+      accessType: "offline",
+      prompt: "select_account consent",
+      clientId: config.google_client_id as string,
+      clientSecret: config.google_client_secret as string,
+    },
+  },
   emailAndPassword: {
     enabled: true,
     autoSignIn: false,
